@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using ProEventos.Data;
-using ProEventos.Models;
+using ProEventos;
+using ProEventos.Domain;
+using ProEventos;
 using System.Collections.Generic;
+using ProEventos.Persistence.Contexto;
 
 namespace ProEventos.Controllers
 {
@@ -11,7 +13,7 @@ namespace ProEventos.Controllers
     {
         private readonly IEnumerable<Evento> _evento = new List<Evento>
         {
-           
+
         };
 
         [HttpGet]
@@ -23,12 +25,12 @@ namespace ProEventos.Controllers
         [HttpGet("{id}")]
         public Evento GetById(int id)
         {
-            return _context.Eventos.FirstOrDefault(e => e.EventoId == id);
+            return _context.Eventos.FirstOrDefault(e => e.Id == id);
         }
 
-        private readonly DataContext _context;
+        private readonly ProEventosContext _context;
 
-        public EventoController (DataContext context)
+        public EventoController(ProEventosContext context)
         {
             _context = context;
         }
