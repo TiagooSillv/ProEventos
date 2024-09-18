@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Eventos.Persist;
+using Geral.Persist;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +15,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ProEventos;
+using ProEventos.Application.Contratos;
 using ProEventos.Persistence.Contexto;
+using ProEventos.Persistence.Contratos;
+using ProEventosService.Application;
 
 namespace ProEventos.API
 {
@@ -34,6 +39,11 @@ namespace ProEventos.API
                     ContextBoundObject => ContextBoundObject.UseSqlite(Configuration.GetConnectionString("Default"))
                 );
             services.AddControllers();
+            //injeção de dependencia
+            services.AddScoped<IEventoService, EventoService>();
+            services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IEventoPersit, EventosPersist>();
+
             services.AddCors();
             services.AddSwaggerGen(c =>
             {
