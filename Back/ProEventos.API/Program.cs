@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ProEventos.Application;
 using ProEventos.Application.Contratos;
@@ -29,6 +30,9 @@ builder.Services.AddDbContext<ProEventosContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("SqlServer"));
 });
+
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies() );
 
 
 

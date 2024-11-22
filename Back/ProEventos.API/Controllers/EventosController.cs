@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProEventos.Application.Contratos;
+using ProEventos.Application.Dtos;
 using ProEventos.Domain.Models;
 using ProEventos.Persistence.Contextos;
 
@@ -26,6 +27,14 @@ namespace ProEventos.API.Controllers
             {
                 var eventos = await _eventoService.GetAllEventosAsync(true);
                 if (eventos == null) return NotFound("Nenhum Evento encontrado!");
+
+
+                var eventoRetorno = new List<EventoDto>();
+
+                // ultilizar o mapping
+
+             
+                 
 
                 return Ok(eventos);
             }
@@ -75,7 +84,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Evento model)
+        public async Task<IActionResult> Post(EventoDto model)
         {
             try
             {
@@ -93,7 +102,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Evento model)
+        public async Task<IActionResult> Put(int id, EventoDto model)
         {
             try
             {
