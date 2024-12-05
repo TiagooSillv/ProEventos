@@ -26,7 +26,7 @@ namespace ProEventos.API.Controllers
             try
             {
                 var eventos = await _eventoService.GetAllEventosAsync(true);
-                if (eventos == null) return NotFound("Nenhum Evento encontrado!");
+                if (eventos == null) return NoContent();
 
 
                 var eventoRetorno = new List<EventoDto>();

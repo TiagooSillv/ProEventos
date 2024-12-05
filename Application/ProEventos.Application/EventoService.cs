@@ -23,7 +23,7 @@ namespace ProEventos.Application
             _mapper = mapper;
         }
 
-        
+
 
         public EventoService(IGeralPersist geralPersist, IEventoPersist eventoPersist)
         {
@@ -40,7 +40,7 @@ namespace ProEventos.Application
 
                 if (await _geralPersist.SaveChangesAsync())
                 {
-                    var resultado =  await _eventoPersist.GetEventoByIdAsync(evento.Id, false);
+                    var resultado = await _eventoPersist.GetEventoByIdAsync(evento.Id, false);
 
                     return _mapper.Map<EventoDto>(resultado);
 
@@ -56,26 +56,30 @@ namespace ProEventos.Application
 
         public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto model)
         {
-            return null;
-        //    try
-        //    {
-        //        var evento = await _eventoPersist.GetEventoByIdAsync(eventoId, false);
-        //        if (evento == null) return null;
+            try
+            {
+                var evento = await _eventoPersist.GetEventoByIdAsync(eventoId, false);
+                if (evento == null) return null;
 
-        //        model.Id = evento.Id;
+                model.Id = evento.Id;
 
-        //        _geralPersist.Update(model);
-        //        if (await _geralPersist.SaveChangesAsync())
-        //        {
-        //            return await _eventoPersist.GetEventoByIdAsync(model.Id, false);
-        //        }
-        //        return null;
-        //    }
-        //    catch (Exception ex)
-        //    {
+                _mapper.Map(model, evento);
 
-        //        throw new Exception(ex.Message);
-        //    }
+                _geralPersist.Update<Evento>(evento);
+
+                if (await _geralPersist.SaveChangesAsync())
+                {
+                    var resultado = await _eventoPersist.GetEventoByIdAsync(evento.Id, false);
+
+                    return _mapper.Map<EventoDto>(resultado);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<bool> DeleteEvento(int eventoId)
@@ -150,6 +154,6 @@ namespace ProEventos.Application
             }
         }
 
-    
+
     }
 }
